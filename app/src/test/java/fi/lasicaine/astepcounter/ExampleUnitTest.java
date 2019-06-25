@@ -1,4 +1,4 @@
-package rpb.suomaasoft.astepcounter;
+package fi.lasicaine.astepcounter;
 
 import org.junit.Test;
 

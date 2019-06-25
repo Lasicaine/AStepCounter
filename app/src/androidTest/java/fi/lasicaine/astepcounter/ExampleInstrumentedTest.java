@@ -1,4 +1,4 @@
-package rpb.suomaasoft.astepcounter;
+package fi.lasicaine.astepcounter;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
