@@ -2,22 +2,22 @@ package fi.lasicaine.astepcounter
 
 import android.app.Activity
 import android.content.Context
-import android.hardware.*
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import android.os.Bundle
-import android.view.View
-import android.widget.TextView
 import android.widget.Toast
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : Activity(), SensorEventListener {
 
     private var sensorManager: SensorManager? = null
-    private var count: TextView? = null
     private var activityRunning: Boolean = false
 
     public override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        count = findViewById<View>(R.id.count) as TextView
 
         sensorManager = getSystemService(Context.SENSOR_SERVICE) as SensorManager
     }
@@ -25,14 +25,18 @@ class MainActivity : Activity(), SensorEventListener {
     override fun onResume() {
         super.onResume()
         activityRunning = true
-        val countSensor = sensorManager!!
-                .getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
+        val countSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_STEP_COUNTER)
         if (countSensor != null) {
-            sensorManager!!.registerListener(this, countSensor,
-                    SensorManager.SENSOR_DELAY_UI)
+            sensorManager?.registerListener(
+                this, countSensor,
+                SensorManager.SENSOR_DELAY_UI
+            )
         } else {
-            Toast.makeText(this, "Step counter sensor not available!",
-                    Toast.LENGTH_LONG).show()
+            label.text = "Step counter sensor not available!"
+            Toast.makeText(
+                this, "Step counter sensor not available!",
+                Toast.LENGTH_LONG
+            ).show()
         }
 
     }
@@ -47,7 +51,7 @@ class MainActivity : Activity(), SensorEventListener {
 
     override fun onSensorChanged(event: SensorEvent) {
         if (activityRunning) {
-            count!!.text = event.values[0].toString()
+            count.text = event.values[0].toString()
         }
 
     }
